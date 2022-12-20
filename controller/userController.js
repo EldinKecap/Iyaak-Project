@@ -14,12 +14,12 @@ userController.getUser = async( req, res ) => {
 
 userController.create = async( req, res ) => {
     let result = await userModel.create(req.body);
-    res.status(200).json(result);
+    res.status(200).json( result );
 }
 
 userController.update = async ( req, res ) => {
     let result = await userModel.update( req.params.id, req.body );
-    res.status(200).json(result);
+    res.status(200).json( result );
 }
 
 userController.delete = async ( req, res ) => {
