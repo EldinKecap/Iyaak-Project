@@ -44,8 +44,8 @@ userController.update = async ( req, res ) => {
         }else{
         result.updateUser( req.body );
         await result.save();
-        }
         res.status( 200 ).json( result );
+        }
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
         res.status( 500 ).json({ errorMessage : errorMessage , user : req.body});

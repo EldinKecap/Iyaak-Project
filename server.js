@@ -10,4 +10,8 @@ mongoose.connect(uri, { dbName:'IiyakProject'});
 app.use( express.json() );
 app.use( '/user', userRouter );
 
+app.all('*', ( req, res ) => {
+    res.status(404).send('Page not found');
+})
+
 app.listen( port, () => console.log( `App listening on port ${port}!` ) );
