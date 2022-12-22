@@ -1,7 +1,6 @@
 const { client } = require('./db');
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
-const { restart } = require('nodemon');
 
 let userModel = {};
 userModel.getAllUsers = async function () {
