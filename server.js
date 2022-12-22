@@ -1,7 +1,11 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const { userController } = require('./controller/userController');
 const app = express();
 const port = 3000;
+const uri = "mongodb+srv://root:root@cluster0.ze2oyhf.mongodb.net/?retryWrites=true&w=majority";
+
+mongoose.connect(uri, { dbName:'IiyakProject'});
 
 app.use( express.json() );
 

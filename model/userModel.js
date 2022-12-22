@@ -1,131 +1,57 @@
-const { client } = require('./db');
-const { ObjectId } = require('mongodb');
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
 
-let userModel = {};
-userModel.getAllUsers = async function () {
-    try {
-        await client.connect();
-        let db =  client.db('IiyakProject');
-        let result = await db.collection('user').find().toArray();
-        await client.close();
-        return result;
-    } catch (err) {
-        console.log(err);
-        return {err};
-    }
-}
 
-userModel.getUser = async function (id){
-    try {
-        await client.connect();
-        let errorMessage = {};
-        errorMessage = await generateUserIdErrorMessage(errorMessage, id);
-        if (Object.keys(errorMessage).length) {
-            return {errorMessage, user};
+const userSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true,
+        min:2,
+        max:20
+    },
+    lastName: {
+        type: String,
+        required: true,
+        min:2,
+        max:20
+    },
+    email: {
+        type: String,
+        unique: true,
+        validate:{
+            validator: v => ( /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(v)),
+            message: props => 'Email is not formatted correctly'
         }
-        let result = await client.db('IiyakProject').collection('user').find({ _id: ObjectId(id) }).toArray();
-        await client.close();
-        return result;
-    } catch (error) {
-        return { error }
+    },
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        min:2,
+        max:40
+    },
+    password: {
+        type: String,
+        required: true,
+        min:8,
+        validate:{
+            validator: v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/g.test(v),
+            message: props => 'Password must have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+        } 
     }
-    
-}
+}, { collection : 'user'});
 
-userModel.create = async function (user) {
-    try {
-        await client.connect();
-        user = removeEmptyUserPropertiesAndTrimEmptySpaces(user); 
-        let errorMessage = {};
-        errorMessage = await generateUserErrorMessage(errorMessage, user);
-    
-        if( Object.keys(user).length < 5 ){
-            errorMessage.empty = 'Left empty fields';
+userSchema.methods.updateUser = function(updateInfo){
+    for (const key in updateInfo) {
+        if (Object.keys(this._doc).includes(key)) {
+            this._doc[key] = updateInfo[key];
         }
-    
-        if (Object.keys(errorMessage).length) {
-            return { errorMessage, user };
-        }
-    
-        user.password = await bcrypt.hash( user.password, 10 );
-        let result = await client.db('IiyakProject').collection('user').insertOne(user);
-        await client.close();
-        return result;     
-    } catch (error) {
-        console.log(error);
-        return error;
     }
 }
 
-userModel.update = async function ( id , user ) {
-    try {
-        await client.connect();
-        let errorMessage = {};
-        errorMessage = await generateUserErrorMessage(errorMessage, user);
-        errorMessage = await generateUserIdErrorMessage(errorMessage, id);
-        
-        if (Object.keys(errorMessage).length) {
-            return {errorMessage, user};
-        }
-    
-        let result = await client.db('IiyakProject').collection('user').updateOne( { _id : ObjectId(id) }, { $set : user } );
-        await client.close();
-        return result;     
-    } catch (error) {
-        console.log(error);
-        return (error);
-    }
-}
+userSchema.pre('save', async function (next) {
+    this.password = await bcrypt.hash( this.password, 10 );
+    next();
+});
 
-userModel.delete = async function ( id ){
-    try {
-        await client.connect();
-        let errorMessage = {};
-        errorMessage = await generateUserIdErrorMessage(errorMessage, id);
-        if (Object.keys(errorMessage).length) {
-            return {errorMessage, user};
-        }
-        let result = await client.db('IiyakProject').collection('user').deleteOne( { _id : ObjectId(id) } );
-        await client.close();
-        return result;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-function removeEmptyUserPropertiesAndTrimEmptySpaces( user ) {
-    for ( const key in user ) {
-        user[key] = user[key].trim()
-        if( user[key] == '' ) delete user[key];
-    }
-    return user;
-}
-
-async function generateUserErrorMessage(errorMessage, user) {
-
-    let checkUsername = await client.db('IiyakProject').collection('user').find({ username : user.username }).toArray();
-    if(checkUsername[0]) errorMessage.username = 'Username already exists';
-    
-    if ( ! ( /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(user.email) ) ) {
-        errorMessage.emailFormat = 'Email is not formatted correctly';
-    }
-
-    let checkEmail = await client.db('IiyakProject').collection('user').find({ email : user.email }).toArray();
-    if(checkEmail[0]) errorMessage.email = 'Email already exists';
-
-    return errorMessage;
-}
-
-async function generateUserIdErrorMessage( errorMessage, id ) {
-    if ( ! ObjectId.isValid(id) ) {
-        errorMessage.id = "Id is not Valid";
-        return errorMessage
-    }
-    let checkId = await client.db('IiyakProject').collection('user').find({ _id : ObjectId(id) }).toArray();
-    if(! checkId[0]) errorMessage.id = "Id doesn't exists";
-    return errorMessage;
-}
-
-module.exports = { userModel }
+module.exports = mongoose.model('User', userSchema);

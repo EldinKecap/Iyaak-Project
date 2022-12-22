@@ -1,30 +1,67 @@
-const {userModel} = require('../model/userModel')
+const { isValidObjectId } = require('mongoose');
+const User = require('../model/userModel')
+const { generateErrorMessage } = require('./userErrorMessageGenerator');
 
-let userController = {}
+let userController = {};
 
 userController.getAllUsers = async( req,res ) => {
-    let results = await userModel.getAllUsers();
-    res.status( 200 ).json( results );
+    try {
+        let results = await User.find();
+        res.status( 200 ).json( results );
+    } catch (error) {
+        res.status( 500 ).json({ errorMessage : error.message })
+    }
 }
 
 userController.getUser = async( req, res ) => {
-    let result = await userModel.getUser(req.params.id);
-    res.status(200).json(result);
+    try {
+        let result = await User.findById(req.params.id);
+        if ( result == null ) {
+            res.status( 404 ).json({ errorMessage : "User does not exist" })
+        }
+        else
+        res.status(200).json(result);
+    } catch (error) {
+        res.status( 500 ).json({ errorMessage : error.message , user : req.body})
+    } 
 }
 
 userController.create = async( req, res ) => {
-    let result = await userModel.create(req.body);
-    res.status(200).json( result );
+    try {
+        let result = await User.create(req.body);
+        res.status(200).json( result );
+    } catch (error) {
+        let errorMessage = generateErrorMessage(error);
+        res.status( 500 ).json({ errorMessage : errorMessage , user : req.body})
+    }
 }
 
 userController.update = async ( req, res ) => {
-    let result = await userModel.update( req.params.id, req.body );
-    res.status(200).json( result );
+    try {
+        let result = await User.findById( req.params.id );
+        result.updateUser( req.body );
+        await result.save();
+        res.status( 200 ).json( result );
+    } catch (error) {
+        let errorMessage = generateErrorMessage(error);
+        res.status( 500 ).json({ errorMessage : errorMessage , user : req.body});
+    }
 }
 
 userController.delete = async ( req, res ) => {
-    let result = await userModel.delete(req.params.id);
-    res.status(200).json(result);
+    try {
+        let result = await User.findById(req.params.id);
+        if ( result == null ) {
+            res.status( 404 ).json({ errorMessage : "User does not exist" })
+        }else{
+            result = await User.deleteOne({ _id: result._id });
+            res.status( 200 ).json( result );
+        }
+    } catch (error) {
+
+        let errorMessage = generateErrorMessage(error);
+        res.status(500).json({ errorMessage : errorMessage });
+    }
 }
 
-module.exports = {userController}
+module.exports = { userController }
