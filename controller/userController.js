@@ -39,8 +39,12 @@ userController.create = async( req, res ) => {
 userController.update = async ( req, res ) => {
     try {
         let result = await User.findById( req.params.id );
+        if ( result == null ) {
+            res.status( 404 ).json({ errorMessage : "User does not exist" })
+        }else{
         result.updateUser( req.body );
         await result.save();
+        }
         res.status( 200 ).json( result );
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
