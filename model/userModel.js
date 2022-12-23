@@ -49,6 +49,15 @@ userSchema.methods.updateUser = function(updateInfo){
     }
 }
 
+userSchema.methods.login = function( { username, password } ) {
+    let passwordCheck = bcrypt.compareSync( password, this.password );
+    if ( !passwordCheck ) {
+        let error = {};
+        error.wrongPassword = "Wrong Password";
+        throw error;
+    }
+}
+
 userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash( this.password, 10 );
     next();
