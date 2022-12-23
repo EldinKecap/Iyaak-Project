@@ -1,4 +1,3 @@
-const { isValidObjectId } = require('mongoose');
 const User = require('../model/userModel')
 const { generateErrorMessage } = require('./userErrorMessageGenerator');
 
@@ -22,14 +21,15 @@ userController.getUser = async( req, res ) => {
         else
         res.status(200).json(result);
     } catch (error) {
-        res.status( 500 ).json({ errorMessage : error.message , user : req.body})
+        let errorMessage = generateErrorMessage(error);
+        res.status( 500 ).json({ errorMessage : errorMessage , user : req.body})
     } 
 }
 
 userController.create = async( req, res ) => {
     try {
         let result = await User.create( req.body );
-        res.status(200).json( result );
+        res.status(201).json( result );
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
         res.status( 500 ).json({ errorMessage : errorMessage , user : req.body})
@@ -48,7 +48,7 @@ userController.update = async ( req, res ) => {
         }
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
-        res.status( 500 ).json({ errorMessage : errorMessage , user : req.body });
+        res.status( 500 ).json({ errorMessage : errorMessage, user : req.body });
     }
 }
 
@@ -70,11 +70,9 @@ userController.delete = async ( req, res ) => {
 userController.login = async ( req, res ) => {
     try {
         let result = await User.findOne( { username: req.body.username } );
-        console.log('ye');
         await result.login( req.body );
         res.status(200).json({ login: true, user: result })
     } catch (error) {
-        console.log(Object.keys(error));
         let errorMessage = generateErrorMessage(error);
         res.status(500).json({ errorMessage : errorMessage, user: req.body });
     }

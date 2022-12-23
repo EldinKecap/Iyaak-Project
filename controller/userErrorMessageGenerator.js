@@ -1,7 +1,7 @@
 function generateErrorMessage(error) {
 let errorMessage = {}
     for (const key in error.errors) {
-            errorMessage[key] = error.errors[key]['properties']['message']
+            errorMessage[key] = error.errors[key]['properties']['message'];
     }
 
     for (const key in error.keyValue) {
