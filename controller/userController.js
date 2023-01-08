@@ -3,80 +3,90 @@ const { generateErrorMessage } = require('./userErrorMessageGenerator');
 
 let userController = {};
 
-userController.getAllUsers = async( req,res ) => {
+userController.getAllUsers = async (req, res) => {
     try {
         let results = await User.find();
-        res.status( 200 ).json( results );
+        res.status(200).json(results);
     } catch (error) {
-        res.status( 500 ).json({ errorMessage : error.message })
+        res.status(500).json({ errorMessage: error.message })
     }
 }
 
-userController.getUser = async( req, res ) => {
+userController.getUser = async (req, res) => {
     try {
         let result = await User.findById(req.params.id);
-        if ( result == null ) {
-            res.status( 404 ).json({ errorMessage : "User does not exist" })
+        if (result == null) {
+            res.status(404).json({ errorMessage: "User does not exist" })
         }
         else
-        res.status(200).json(result);
+            res.status(200).json(result);
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
-        res.status( 500 ).json({ errorMessage : errorMessage , user : req.body})
-    } 
-}
-
-userController.create = async( req, res ) => {
-    console.log(req.body);
-
-    try {
-        let result = await User.create( req.body );
-        res.status(201).json( result );
-    } catch (error) {
-        let errorMessage = generateErrorMessage(error);
-        res.status( 500 ).json({ errorMessage : errorMessage , user : req.body})
+        res.status(500).json({ errorMessage: errorMessage, user: req.body })
     }
 }
 
-userController.update = async ( req, res ) => {
+userController.create = async (req, res) => {
+
     try {
-        let result = await User.findById( req.params.id );
-        if ( result == null ) {
-            res.status( 404 ).json({ errorMessage : "User does not exist" })
-        }else{
-        result.updateUser( req.body );
-        await result.save();
-        res.status( 200 ).json( result );
-        }
+        let result = await User.create(req.body);
+        res.status(201).json(result);
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
-        res.status( 500 ).json({ errorMessage : errorMessage, user : req.body });
+        res.status(500).json({ errorMessage: errorMessage, user: req.body })
     }
 }
 
-userController.delete = async ( req, res ) => {
+userController.update = async (req, res) => {
+    // console.log(req.body);
+
     try {
         let result = await User.findById(req.params.id);
-        if ( result == null ) {
-            res.status( 404 ).json({ errorMessage : "User does not exist" })
-        }else{
-            result = await User.deleteOne({ _id: result._id });
-            res.status( 200 ).json( result );
+        if (result == null) {
+            res.status(404).json({ errorMessage: "User does not exist" })
+        } else {
+            for (const key in req.body) {
+                if (req.body[key] == '') {
+                    delete req.body[key]
+                }
+            }
+            console.log(result);
+            Object.assign(result, req.body)
+            console.log(result);
+            // result.updateUser( req.body );
+            await result.save();
+            res.status(200).json(result);
         }
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
-        res.status(500).json({ errorMessage : errorMessage });
+        console.log(error);
+        res.status(500).json({ errorMessage: errorMessage, user: req.body });
     }
 }
 
-userController.login = async ( req, res ) => {
+userController.delete = async (req, res) => {
     try {
-        let result = await User.findOne( { username: req.body.username } );
-        await result.login( req.body );
+        let result = await User.findById(req.params.id);
+        if (result == null) {
+            res.status(404).json({ errorMessage: "User does not exist" })
+        } else {
+            result = await User.deleteOne({ _id: result._id });
+            res.status(200).json(result);
+        }
+    } catch (error) {
+        let errorMessage = generateErrorMessage(error);
+        res.status(500).json({ errorMessage: errorMessage });
+    }
+}
+
+userController.login = async (req, res) => {
+    try {
+        let result = await User.findOne({ username: req.body.username });
+        await result.login(req.body);
         res.status(200).json({ login: true, user: result })
     } catch (error) {
         let errorMessage = generateErrorMessage(error);
-        res.status(500).json({ errorMessage : errorMessage, user: req.body });
+        res.status(500).json({ errorMessage: errorMessage, user: req.body });
     }
 }
 

@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.updateUser = function(updateInfo){
     for (const key in updateInfo) {
         if (Object.keys(this._doc).includes(key)) {
-            this._doc[key] = updateInfo[key];
+            if(updateInfo[key] != '') this._doc[key] = updateInfo[key];
         }
     }
 }
