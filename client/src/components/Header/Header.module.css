@@ -1,0 +1,22 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    /* position: fixed; */
+    /* top: 0px; */
+}
+
+.list{
+    margin: 0px;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    background-color: darkgrey;
+    gap: 10PX;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    font-weight: 600;
+}

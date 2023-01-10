@@ -1,0 +1,15 @@
+.card{
+    height: fit-content;
+    background-color: darkgray;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding: 3%;
+    margin: auto;
+    width: 70vw;
+    margin-top: 5vh;
+    border-radius: 15px;
+    -webkit-box-shadow: 1px 3px 34px -13px rgba(0,0,0,0.61);
+    -moz-box-shadow: 1px 3px 34px -13px rgba(0,0,0,0.61);
+    box-shadow: 1px 3px 34px -13px rgba(0,0,0,0.61);
+}
