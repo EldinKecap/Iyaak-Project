@@ -33,7 +33,8 @@ const LoginForm = () => {
         const data = await response.json()
 
         console.log(data);
-        if (Object.keys(data).includes('login')) loginCtx.setLoggedIn(true);
+        const isLogged = Object.keys(data).includes('login')
+        if (isLogged) loginCtx.setLoggedIn(true);
     }
 
 
@@ -42,7 +43,7 @@ const LoginForm = () => {
         <>
             <div className={classes.backdrop}></div>
             <div className={classes.loginForm}>
-                <Card>
+                <Card className={classes.loginCard}>
                     <Input label='Username'
                         id="usernameLogin"
                         type="text"
@@ -51,10 +52,10 @@ const LoginForm = () => {
                         id="passwordLogin"
                         type="text"
                         ref={passwordRef} />
-                    <Button title="Log in" onClick={fetchLogin} />
-                    <Button title="Create Account" onClick={()=>setDisplayCreateUser(true)}  />
+                    <Button  className={classes.loginButton} title="Log in" onClick={fetchLogin} />
+                    <Button className={classes.loginButton} title="Create Account" onClick={()=>setDisplayCreateUser(true)}  />
                 </Card>
-                    {displayCreateUser && <CreateAUserForm />}
+                    {displayCreateUser && <CreateAUserForm cardStyle={classes.loginCreateCard}/>}
             </div>
         </>
     )

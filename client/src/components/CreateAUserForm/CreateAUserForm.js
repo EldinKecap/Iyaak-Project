@@ -4,7 +4,7 @@ import Card from "../UI/Card/Card";
 import Input from "../UI/Input/Input";
 
 
-const CreateAUserForm = () => {
+const CreateAUserForm = (props) => {
     let firstNameRef = useRef();
     let lastNameRef = useRef();
     let usernameRef = useRef();
@@ -36,7 +36,7 @@ const CreateAUserForm = () => {
 
 
     return (
-        <Card>
+        <Card className={props.cardStyle}>
             <form onSubmit={formSubmitHandler}>
                 <h1>Create a user</h1>
                 <Input ref={firstNameRef} label="First Name" id="firstName" type="text" />

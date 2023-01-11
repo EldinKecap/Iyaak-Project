@@ -9,7 +9,9 @@
         font-weight: 200;
         background-color: transparent;
         font-family: 'Roboto Mono', monospace;
-        border-bottom: 1px solid black;
+        border-bottom: 2px solid #0A2647;
+		outline: none;
+
 }
 
 .fieldset {
@@ -19,4 +21,8 @@
 
 .labelField {
     font-weight: 600;
+}
+
+.inputField:focus{
+	border-bottom: solid 3px #0A2647;
 }

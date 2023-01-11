@@ -1,10 +1,12 @@
 .backdrop{
-
+    background-image: url(../../assets/Hero.jpg);
+    background-size: cover;
+    background-position: center;
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    left: 0;
+    right: 0;
     top: 0;
-    width: 100%; /* Full width */
+    width: 50vw; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
@@ -14,10 +16,46 @@
 .loginForm{
     z-index: 2;
     position: absolute;
-    display: block;
+    display: flex;
     width: fit-content;
     left: 0; 
-    right: 0; 
-    margin-left: auto; 
-    margin-right: auto;
+    top:0;
+    margin: 0;
+    
+}
+
+.loginCard {
+    box-sizing: border-box;
+    margin: 0;
+	width: 50vw;
+    height: 100vh;
+    margin-top: 0px;
+    justify-content: center;
+    border-radius: 0%;
+    background-color: #155496;
+}
+
+.loginButton{
+    width: 50%;
+    align-self: center;
+}
+
+.loginCreateCard {
+    box-sizing: border-box;
+    margin: 0;
+	width: 50vw;
+    height: 100vh;
+    margin-top: 0px;
+    justify-content: center;
+    border-radius: 0%;
+    background-color: #155496;
+    opacity: 0;
+    animation: show 400ms ease-in-out forwards;
+}
+
+@keyframes show {
+
+    100%{
+      opacity: 0.8;  
+    }
 }
