@@ -6,7 +6,8 @@ import Input from "../UI/Input/Input"
 const DeleteUserForm = () => {
     const idRef = useRef()
     async function fetchUser() {
-        const response = await fetch('http://localhost:5000/user/' + idRef.current.value, {
+        const url = 'http://localhost:5000/user/' + idRef.current.value
+        const response = await fetch(url, {
             method: 'DELETE',
             mode: 'cors',
             headers: {
@@ -20,8 +21,9 @@ const DeleteUserForm = () => {
     return (
         <>
             <Card>
+                <h2>Delete User</h2>
                 <Input type='text' label='Enter ID' ref={idRef} />
-                <Button title="submit" onClick={fetchUser} />
+                <Button title="Submit" onClick={fetchUser} />
             </Card>
         </>
     )

@@ -8,7 +8,8 @@ const GetUserForm = () => {
     const [user, setUser] = useState();
     const idRef = useRef()
     async function fetchUser() {
-        const response = await fetch('http://localhost:5000/user/' + idRef.current.value);
+        const url = 'http://localhost:5000/user/' + idRef.current.value
+        const response = await fetch(url);
         const data = await response.json();
         console.log(data);
         setUser(data)

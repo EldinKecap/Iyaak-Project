@@ -23,7 +23,8 @@ const UpdateUserForm = () => {
         }
 
         console.log(user);
-        let response = await fetch('http://localhost:5000/user/' + idRef.current.value, {
+        const url = 'http://localhost:5000/user/' + idRef.current.value
+        let response = await fetch(url , {
             method: 'PUT',
             mode: 'cors',
             body: JSON.stringify(user),
@@ -46,7 +47,7 @@ const UpdateUserForm = () => {
                 <Input ref={usernameRef} label="Username" id="username" type="text" />
                 <Input ref={emailRef} label="E-mail" id="email" type="email" />
                 <Input ref={passwordRef} label="Password" id="password" type="password" />
-                <Button title="submit" />
+                <Button title="Submit" />
             </form>
         </Card>
     )

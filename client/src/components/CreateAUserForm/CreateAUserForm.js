@@ -44,7 +44,7 @@ const CreateAUserForm = () => {
                 <Input ref={usernameRef} label="Username" id="username" type="text" />
                 <Input ref={emailRef} label="E-mail" id="email" type="email" />
                 <Input ref={passwordRef} label="Password" id="password" type="password" />
-                <Button title="submit" />
+                <Button title="Submit" />
             </form>
         </Card>
     )
