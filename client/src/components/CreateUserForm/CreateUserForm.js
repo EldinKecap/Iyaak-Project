@@ -7,6 +7,7 @@ import Input from "../UI/Input/Input";
 
 const CreateUserForm = (props) => {
     const [invalidInput, setInvalidInput] = useState({})
+    
     let firstNameRef = useRef();
     let lastNameRef = useRef();
     let usernameRef = useRef();
@@ -39,9 +40,10 @@ const CreateUserForm = (props) => {
             }
         })
         let data = await response.json()
-
+        console.log('ispred');
         if (Object.keys(data).includes('_id')) {
-            props.login(data)
+            console.log("unutra");
+            props.login({user:data});
             console.log(data);
         } else {
             errorMessage = data.errorMessage

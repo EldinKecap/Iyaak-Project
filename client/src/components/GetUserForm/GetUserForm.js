@@ -1,27 +1,11 @@
-import { useRef, useState } from "react";
-import Button from "../UI/Button/Button";
-import Card from "../UI/Card/Card";
-import Input from "../UI/Input/Input"
+import {  useState } from "react";
 import UserCard from "./UserCard";
 
 const GetUserForm = () => {
-    const [user, setUser] = useState();
-    const idRef = useRef()
-    async function fetchUser() {
-        const url = 'http://localhost:5000/user/' + idRef.current.value
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-        setUser(data)
-    }
-
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')).user);
     return (
         <>
-            <Card>
-                <Input type='text' label='Enter ID' ref={idRef} />
-                <Button title="submit" onClick={fetchUser} />
-            </Card>
-            {user && <UserCard user={user}/>}
+            {user && <UserCard user={user} />}
         </>
     )
 }
