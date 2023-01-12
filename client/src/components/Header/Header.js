@@ -15,15 +15,12 @@ const Header = (props) => {
 
     function logout() {
         LoginCtx.setLoggedIn(false);
+        localStorage.removeItem('loggedInUser');
     }
 
     return (
         <header className={classes.header}>
             <ul className={classes.list}>
-                <li><Button title="Create user"
-                    onClick={selectedView.bind(null, 'createUser')} />
-                </li>
-
                 <li><Button title="Get user"
                     onClick={selectedView.bind(null, 'getUser')} />
                 </li>

@@ -82,9 +82,14 @@ userController.delete = async (req, res) => {
 userController.login = async (req, res) => {
     try {
         let result = await User.findOne({ username: req.body.username });
-        await result.login(req.body);
-        res.status(200).json({ login: true, user: result })
+        if(result){
+            await result.login(req.body);
+            res.status(200).json({ login: true, user: result })
+        }else{
+            throw Error('User does not exist');
+        }
     } catch (error) {
+        console.log(error.message);
         let errorMessage = generateErrorMessage(error);
         res.status(500).json({ errorMessage: errorMessage, user: req.body });
     }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './App.css';
-import CreateAUserForm from './components/CreateAUserForm/CreateAUserForm';
 import DeleteUserForm from './components/DeleteUserForm/DeleteForm';
 import GetAllUsers from './components/GetAllUsers/GetAllUsers';
 import GetUserForm from './components/GetUserForm/GetUserForm';
@@ -12,8 +11,8 @@ import LoginContext from './store/login-context';
 // import HeaderContextProvider from './store/header-context';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [selected, setSelected] = useState('createUser')
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedInUser') || false)
+  const [selected, setSelected] = useState('getUser')
   const value = { selected, setSelected }
   const loginValue = { loggedIn, setLoggedIn }
 
@@ -21,14 +20,13 @@ function App() {
   return (
     <HeaderContext.Provider value={value}>
       <LoginContext.Provider value={loginValue}>
-        <Header />
+        {loggedIn && <Header />}
         {!loggedIn && <LoginForm />}
       </LoginContext.Provider>
-      {selected === 'createUser' && <CreateAUserForm />}
-      {selected === 'getUser' && <GetUserForm />}
-      {selected === 'getAllUsers' && <GetAllUsers />}
-      {selected === 'updateUser' && <UpdateUserForm />}
-      {selected === 'deleteUser' && <DeleteUserForm />}
+      {loggedIn && selected === 'getUser' && <GetUserForm />}
+      {loggedIn && selected === 'getAllUsers' && <GetAllUsers />}
+      {loggedIn && selected === 'updateUser' && <UpdateUserForm />}
+      {loggedIn && selected === 'deleteUser' && <DeleteUserForm />}
     </HeaderContext.Provider>
   );
 }

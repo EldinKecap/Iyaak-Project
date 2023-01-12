@@ -9,7 +9,7 @@ const UserCard = (props) => {
     return (<Card>
         {
             <ul className={classes.list}>
-                <img src={UserDefaultImage} alt="User Image" />
+                <img src={UserDefaultImage} alt="User" />
                 <li>ID:{props.user._id}</li>
                 <li>Username: {props.user.username}</li>
                 <li>First name:{props.user.firstName}</li>

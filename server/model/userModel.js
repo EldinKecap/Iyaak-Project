@@ -51,6 +51,7 @@ userSchema.methods.updateUser = function(updateInfo){
 
 userSchema.methods.login = function( { username, password } ) {
     let passwordCheck = bcrypt.compareSync( password, this.password );
+    
     if ( !passwordCheck ) {
         let error = {};
         error.wrongPassword = "Wrong Password";
