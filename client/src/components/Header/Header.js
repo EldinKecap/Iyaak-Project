@@ -21,11 +21,11 @@ const Header = (props) => {
     return (
         <header className={classes.header}>
             <ul className={classes.list}>
-                <li><Button title="Get user"
-                    onClick={selectedView.bind(null, 'getUser')} />
+                <li><Button title="Profile"
+                    onClick={selectedView.bind(null, 'profile')} />
                 </li>
 
-                <li><Button title="Get all users"
+                <li><Button title="Users"
                     onClick={selectedView.bind(null, 'getAllUsers')} />
                 </li>
 

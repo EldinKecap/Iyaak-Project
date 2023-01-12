@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import UserCard from "./UserCard";
 
-const GetUserForm = () => {
+const GetUser = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')).user);
     return (
         <>
@@ -10,4 +10,4 @@ const GetUserForm = () => {
     )
 }
 
-export default GetUserForm;
+export default GetUser;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import UserCard from "../GetUserForm/UserCard";
+import UserCard from "../GetUser/UserCard";
+import classes from "./GetAllUsers.module.css"
 
 const GetAllUsers = () => {
     const [users, setUsers] = useState([]);
@@ -13,13 +14,13 @@ const GetAllUsers = () => {
     },[])
     
 
-    return (<>
+    return (<div className={classes.userList}>
         {
             users.map((user) => {
-                return <UserCard user={user} />
+                return <UserCard key={user._id} user={user} />
             })
         }
-        </>
+        </div>
     )
 }
 

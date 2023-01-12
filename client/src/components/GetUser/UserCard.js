@@ -3,9 +3,7 @@ import classes from './UserCard.module.css'
 
 const UserCard = (props) => {
 
-
-
-    return (<Card className={classes.cardStyle}>
+    return (<Card  className={classes.cardStyle}>
         {
             <div className={classes.profile}>
                 <div className={classes.imageContainer}>
