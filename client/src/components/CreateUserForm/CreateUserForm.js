@@ -40,9 +40,7 @@ const CreateUserForm = (props) => {
             }
         })
         let data = await response.json()
-        console.log('ispred');
         if (Object.keys(data).includes('_id')) {
-            console.log("unutra");
             props.login({user:data});
             console.log(data);
         } else {

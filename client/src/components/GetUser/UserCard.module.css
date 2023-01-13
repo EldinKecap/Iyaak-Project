@@ -8,6 +8,8 @@
 
 .cardStyle img{
     width: 100px;
+    position: relative;
+    top:-40px;
 }
 
 .profile{
@@ -23,8 +25,7 @@
     width:inherit;
     background-size:cover ;
     text-align: center;
-    padding: 1%;
-    padding-top: 12%;
+    /* padding: 1%; */
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
@@ -50,6 +51,7 @@
 }
 
 .imageContainer p{
+    margin-top: 0;
     color: #0B2647;
     font-weight: 700;
     font-size: 24px;

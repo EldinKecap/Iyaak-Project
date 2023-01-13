@@ -29,7 +29,7 @@ const Header = (props) => {
                     onClick={selectedView.bind(null, 'getAllUsers')} />
                 </li>
 
-                <li><Button title="Update user"
+                <li><Button title="Update profile"
                     onClick={selectedView.bind(null, 'updateUser')} />
                 </li>
 

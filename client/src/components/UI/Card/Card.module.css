@@ -1,6 +1,6 @@
 .card{
     height: fit-content;
-    background-color: darkgray;
+    background-color: #205295 ;
     display: flex;
     flex-direction: column;
     color: white;
