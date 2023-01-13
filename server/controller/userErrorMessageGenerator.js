@@ -16,6 +16,16 @@ let errorMessage = {}
 
     if(error.message === 'User does not exist') errorMessage.username = "User does not exist";
 
+    if (error.hasOwnProperty('password')) errorMessage.password = error.password;
+    
+    if (error.hasOwnProperty('username')) errorMessage.username = error.username;
+    
+    if (error.hasOwnProperty('firstName')) errorMessage.firstName = error.firstName;
+    
+    if (error.hasOwnProperty('lastName')) errorMessage.lastName = error.lastName;
+
+    if (error.hasOwnProperty('email')) errorMessage.email = error.email;
+
     return errorMessage;
 }
 

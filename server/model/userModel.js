@@ -41,13 +41,13 @@ const userSchema = new mongoose.Schema({
     }
 }, { collection : 'user'});
 
-userSchema.methods.updateUser = function(updateInfo){
-    for (const key in updateInfo) {
-        if (Object.keys(this._doc).includes(key)) {
-            if(updateInfo[key] != '') this._doc[key] = updateInfo[key];
-        }
-    }
-}
+// userSchema.methods.updateUser = function(updateInfo){
+//     for (const key in updateInfo) {
+//         if (Object.keys(this._doc).includes(key)) {
+//             if(updateInfo[key] != '') this._doc[key] = updateInfo[key];
+//         }
+//     }
+// }
 
 userSchema.methods.login = function( { username, password } ) {
     let passwordCheck = bcrypt.compareSync( password, this.password );
